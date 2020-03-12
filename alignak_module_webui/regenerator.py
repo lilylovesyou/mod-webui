@@ -1273,9 +1273,8 @@ class Regenerator(object):
         for commandcallinstance in data["host_notification_commands"]:
             if not isinstance(commandcallinstance, CommandCall):
                 commandcallinstance = unserialize(commandcallinstance)
-            for commandinstance in commandcallinstance.command:
-                if not isinstance(commandinstance, Command):
-                    commandinstance = unserialize(commandinstance)
+            if not isinstance(commandcallinstance.command, Command):
+                commandcallinstance.command = unserialize(commandcallinstance.command)
 
         nw = self.notificationways.find_by_name(nw_name)
         if nw:
