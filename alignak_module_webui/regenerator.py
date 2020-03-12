@@ -1273,7 +1273,7 @@ class Regenerator(object):
         for commandcallinstance in data["host_notification_commands"]:
             if not isinstance(commandcallinstance, CommandCall):
                 commandcallinstance = unserialize(commandcallinstance)
-            for commandinstance in commandcallinstance["command"]:
+            for commandinstance in commandcallinstance.command:
                 if not isinstance(commandinstance, Command):
                     commandinstance = unserialize(commandinstance)
 
