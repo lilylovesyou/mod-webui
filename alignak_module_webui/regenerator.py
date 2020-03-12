@@ -58,6 +58,9 @@ from alignak.objects.receiverlink import ReceiverLink, ReceiverLinks
 
 from alignak.message import Message
 
+# Fixing unusual issue with broks only partialially deserializing
+from alignak.misc.serialization import unserialize
+
 # Specific logger configuration
 import logging
 from alignak.log import ALIGNAK_LOGGER_NAME
@@ -1205,7 +1208,10 @@ class Regenerator(object):
         # Transform some inner items
         new_drs = []
         for dr in tp.dateranges:
-            new_dr = dr
+            if not isinstance(dr, Daterange):
+                new_dr = unserialize(dr, no_json=True, printing=False)
+            else:
+                new_dr = dr
             # new_dr = Daterange(dr.syear, dr.smon, dr.smday, dr.swday, dr.swday_offset,
             #                    dr.eyear, dr.emon, dr.emday, dr.ewday, dr.ewday_offset,
             #                    dr.skip_interval, dr.other)
