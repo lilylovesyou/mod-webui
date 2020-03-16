@@ -1270,11 +1270,8 @@ class Regenerator(object):
         logger.debug("Creating a notification way: %s from scheduler %s", nw_name, inst_id)
         logger.debug("Creating a notification way: %s ", data)
 
-        for commandcallinstance in data["host_notification_commands"]:
-            if not isinstance(commandcallinstance, CommandCall):
-                commandcallinstance = unserialize(commandcallinstance)
-            if not isinstance(commandcallinstance.command, Command):
-                commandcallinstance.command = unserialize(commandcallinstance.command)
+        data["host_notification_commands"][:] = [unserialize(commandcallinstance) for commandcallinstance in data["host_notification_commands"]]
+        data["service_notification_commands"][:] = [unserialize(commandcallinstance) for commandcallinstance in data["service_notification_commands"]]
 
         nw = self.notificationways.find_by_name(nw_name)
         if nw:
