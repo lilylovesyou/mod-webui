@@ -923,6 +923,8 @@ class Regenerator(object):
         hname = data['host_name']
         inst_id = data['instance_id']
 
+        data["check_command"] = unserialize(data["check_command"], no_json=True)
+
         # Try to get the in progress Hosts
         try:
             inp_hosts = self.inp_hosts[inst_id]
@@ -985,6 +987,8 @@ class Regenerator(object):
         hname = data['host_name']
         sdesc = data['service_description']
         inst_id = data['instance_id']
+
+        data["check_command"] = unserialize(data["check_command"], no_json=True)
 
         # Try to get the in progress Hosts
         try:
