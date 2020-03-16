@@ -1198,6 +1198,9 @@ class Regenerator(object):
         # so we must restore Timeranges from the dictionary
         logger.debug("Timeperiod: %s", tp)
 
+        # Deserialize Daterange objects in Timeperiod:
+        tp.dateranges[:] = [unserialize(daterange, no_json=True, printing=False) for daterange in tp.dateranges]
+
         # WebUI - try to manage time periods correctly!
         # Alignak :
         # - date range: <class 'alignak.daterange.MonthWeekDayDaterange'>
@@ -1208,10 +1211,7 @@ class Regenerator(object):
         # Transform some inner items
         new_drs = []
         for dr in tp.dateranges:
-            if not isinstance(dr, Daterange):
-                new_dr = unserialize(dr, no_json=True, printing=False)
-            else:
-                new_dr = dr
+            new_dr = dr
             # new_dr = Daterange(dr.syear, dr.smon, dr.smday, dr.swday, dr.swday_offset,
             #                    dr.eyear, dr.emon, dr.emday, dr.ewday, dr.ewday_offset,
             #                    dr.skip_interval, dr.other)
